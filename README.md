@@ -22,6 +22,6 @@ Add a new account (type "Bitcoin").
 **Use your Bitcoin adresses coma seperated as user name**  
 `1KuWLoZuoJgz3N6sLoAwGth9XGm8YuFTGt, 1KuWLoZuoJgz3N6sLoAwGth9XGm8YuFTGt` (example)
 
-**User whatever you want as password**  
+**Use whatever you want as password**  
 `123` (example)
 
