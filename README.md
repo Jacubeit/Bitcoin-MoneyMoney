@@ -13,7 +13,7 @@ You can get a signed version of this extension from
 
 Once downloaded, move `Bitcoin.lua` to your MoneyMoney Extensions folder.
 
-**Note:** This extension requires MoneyMoney **Version 2.2.20** or newer.
+**Note:** This extension requires MoneyMoney **Version 2.2.19** or newer.
 
 ## MoneyMoney Setup
 
