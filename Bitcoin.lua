@@ -30,7 +30,7 @@
 
 
 WebBanking{
-  version = 0.1,
+  version = 0.2,
   description = "Include your Bitcoins as cryptoportfolio in MoneyMoney by providing Bitcoin addresses as usernme (comma seperated) and a random Password",
   services= { "Bitcoin" }
 }
@@ -93,21 +93,21 @@ end
 function requestBitcoinQuantityForBitcoinAddress(bitcoinAddress)
   response = connection:request("GET", bitcoinRequestUrl(bitcoinAddress), {})
   json = JSON(response)
-  
-  return convertSatoshiToBitcoin(response)
+  balance = json:dictionary()['data']['confirmed_balance']
+  return balance
 end
 
 
 -- Helper Functions
-function convertSatoshiToBitcoin(satoshi)
-  return satoshi / 100000000  
-end
+-- function convertSatoshiToBitcoin(satoshi)
+--   return satoshi / 100000000
+-- end
 
 function cryptocompareRequestUrl()
   return "https://api.coinmarketcap.com/v1/ticker/bitcoin/?convert=EUR"
-end 
+end
 
 function bitcoinRequestUrl(bitcoinAddress)
-  return "https://blockexplorer.com/api/addr/" .. bitcoinAddress .. "/balance"
+  return "https://chain.so/api/v2/get_address_balance/BTC/" .. bitcoinAddress .. "/"
 end
 
