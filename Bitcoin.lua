@@ -92,22 +92,22 @@ end
 
 function requestBitcoinQuantityForBitcoinAddress(bitcoinAddress)
   response = connection:request("GET", bitcoinRequestUrl(bitcoinAddress), {})
-  json = JSON(response)
-  balance = json:dictionary()['data']['confirmed_balance']
-  return balance
+--  json = JSON(response)
+
+  return convertSatoshiToBitcoin(response)
 end
 
 
 -- Helper Functions
--- function convertSatoshiToBitcoin(satoshi)
---   return satoshi / 100000000
--- end
+function convertSatoshiToBitcoin(satoshi)
+  return satoshi / 100000000
+end
 
 function cryptocompareRequestUrl()
   return "https://api.coinmarketcap.com/v1/ticker/bitcoin/?convert=EUR"
 end
 
 function bitcoinRequestUrl(bitcoinAddress)
-  return "https://chain.so/api/v2/get_address_balance/BTC/" .. bitcoinAddress .. "/"
+--  return "https://blockexplorer.com/api/addr/" .. bitcoinAddress .. "/balance"
+  return "https://blockchain.info/q/addressbalance/" .. bitcoinAddress .. "?confirmations=6"
 end
-
