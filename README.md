@@ -22,5 +22,5 @@ Once downloaded, move `Bitcoin.lua` to your MoneyMoney Extensions folder.
 
 Add a new account (type "Bitcoin").
 
-**Use your Bitcoin adresses coma seperated as user name**
+**Use your Bitcoin adresses coma separated as user name**
 `1KuWLoZuoJgz3N6sLoAwGth9XGm8YuFTGt, 1KuWLoZuoJgz3N6sLoAwGth9XGm8YuFTGt` (example)
