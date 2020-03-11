@@ -4,7 +4,6 @@
 -- Returns cryptoassets as securities
 --
 -- Username: Bitcoin Adresses comma separated
--- Password: [Whatever]
 
 -- MIT License
 
@@ -31,7 +30,7 @@
 
 WebBanking{
   version = 0.3,
-  description = "Include your Bitcoins as cryptoportfolio in MoneyMoney by providing Bitcoin addresses as usernme (comma separated) and a random Password",
+  description = "Include your Bitcoins as cryptoportfolio in MoneyMoney by providing Bitcoin addresses as username (comma separated).",
   services= { "Bitcoin" }
 }
 
