@@ -11,7 +11,7 @@ As it was no longer actively maintained I took the liberty to fork it and mainta
 
 You can get a signed version of this extension from
 
-* my [GitHub releases page](https://github.com/UdoBretz/Bitcoin-MoneyMoney/releases/tag/v0.3), or
+* my [GitHub releases page](https://github.com/UdoBretz/Bitcoin-MoneyMoney/releases), or
 * the [MoneyMoney Extensions](https://moneymoney-app.com/extensions/) page
 
 Once downloaded, move `Bitcoin.lua` to your MoneyMoney Extensions folder.
