@@ -29,7 +29,7 @@
 
 
 WebBanking{
-  version = 0.3,
+  version = 0.5,
   description = "Include your Bitcoins as cryptoportfolio in MoneyMoney by providing Bitcoin addresses as username (comma separated).",
   services= { "Bitcoin" }
 }
@@ -72,6 +72,9 @@ function RefreshAccount (account, since)
       quantity = bitcoinQuantity,
       price = BTCinEURprice,
     }
+
+    -- Add sleep for 1 second to avoid possible rate limitation of the API
+    sleep(1)
   end
 
   return {securities = s}
@@ -110,3 +113,9 @@ end
 function bitcoinRequestUrl(bitcoinAddress)
   return "https://api.blockcypher.com/v1/btc/main/addrs/" .. bitcoinAddress
 end
+
+function sleep(n)  -- seconds
+    local t0 = os.clock()
+    while os.clock() - t0 <= n do
+    end
+ end
