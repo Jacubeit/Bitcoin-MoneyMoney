@@ -1,10 +1,9 @@
 -- Inofficial Bitcoin Extension for MoneyMoney
--- Fetches Bitcoin quantity for addresses via blockexplorer API
--- Fetches Bitcoin price in EUR via coinmarketcap API
+-- Fetches Bitcoin quantity for addresses via api.blockcypher.com API
+-- Fetches Bitcoin price in EUR via blockchain.info API
 -- Returns cryptoassets as securities
 --
--- Username: Bitcoin Adresses comma seperated
--- Password: [Whatever]
+-- Username: Bitcoin Adresses comma separated
 
 -- MIT License
 
@@ -30,14 +29,14 @@
 
 
 WebBanking{
-  version = 0.2,
-  description = "Include your Bitcoins as cryptoportfolio in MoneyMoney by providing Bitcoin addresses as usernme (comma seperated) and a random Password",
+  version = 0.5,
+  description = "Include your Bitcoins as cryptoportfolio in MoneyMoney by providing Bitcoin addresses as username (comma separated).",
   services= { "Bitcoin" }
 }
 
 local bitcoinAddress
 local connection = Connection()
-local currency = "EUR" -- fixme: make dynamik if MM enables input field
+local currency = "EUR" -- fixme: make dynamic if MM enables input field
 
 function SupportsBank (protocol, bankCode)
   return protocol == ProtocolWebBanking and bankCode == "Bitcoin"
@@ -61,7 +60,7 @@ end
 
 function RefreshAccount (account, since)
   local s = {}
-  prices = requestBitcoinPrice()
+  BTCinEURprice = requestBitcoinPrice()
 
   for address in string.gmatch(bitcoinAddress, '([^,]+)') do
     bitcoinQuantity = requestBitcoinQuantityForBitcoinAddress(address)
@@ -69,10 +68,13 @@ function RefreshAccount (account, since)
     s[#s+1] = {
       name = address,
       currency = nil,
-      market = "cryptocompare",
+      market = "blockchain.info",
       quantity = bitcoinQuantity,
-      price = prices["price_eur"],
+      price = BTCinEURprice,
     }
+
+    -- Add sleep for 1 second to avoid possible rate limitation of the API
+    MM.sleep(1)
   end
 
   return {securities = s}
@@ -82,32 +84,32 @@ function EndSession ()
 end
 
 
--- Querry Functions
+-- Query Functions
 function requestBitcoinPrice()
-  response = connection:request("GET", cryptocompareRequestUrl(), {})
+  response = connection:request("GET", priceRequestUrl(), {})
   json = JSON(response)
-
-  return json:dictionary()[1]
+  return json:dictionary()["EUR"]["last"]
 end
 
 function requestBitcoinQuantityForBitcoinAddress(bitcoinAddress)
   response = connection:request("GET", bitcoinRequestUrl(bitcoinAddress), {})
+
   json = JSON(response)
-  balance = json:dictionary()['data']['confirmed_balance']
-  return balance
+  satoshi = json:dictionary()["balance"]
+
+  return convertSatoshiToBitcoin(satoshi)
 end
 
 
 -- Helper Functions
--- function convertSatoshiToBitcoin(satoshi)
---   return satoshi / 100000000
--- end
+function convertSatoshiToBitcoin(satoshi)
+  return satoshi / 100000000
+end
 
-function cryptocompareRequestUrl()
-  return "https://api.coinmarketcap.com/v1/ticker/bitcoin/?convert=EUR"
+function priceRequestUrl()
+  return "https://blockchain.info/ticker"
 end
 
 function bitcoinRequestUrl(bitcoinAddress)
-  return "https://chain.so/api/v2/get_address_balance/BTC/" .. bitcoinAddress .. "/"
+  return "https://api.blockcypher.com/v1/btc/main/addrs/" .. bitcoinAddress
 end
-
